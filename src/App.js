@@ -23,7 +23,7 @@ export default function App() {
     </div>
   );
 }
-
+//---------------------------------Logo---------------------------
 function Logo() {
   return <h1>🌴 Far Away 💼</h1>;
 }
@@ -71,7 +71,7 @@ function Form({ onAddItems }) {
 
   );
 }
-
+//--------------------------------- ensemble de List---------------------------
 function PackingList({ items }) {
   return <div className="list">
     <ul>
@@ -81,7 +81,7 @@ function PackingList({ items }) {
     </ul>
   </div>;
 }
-
+//-------------------------------- un element de List--------------------------
 function Item({ item }) {
   return (
     <li>
