@@ -10,15 +10,18 @@ export default function App() {
 
   const [items, setItems] = useState([]);
 
+  //ajout d'un item
   function handleAddItems(item) {
     setItems((items) => [...items, item])
   }
 
+  //supprime un item
   function handleDeleteItem(id) {
     setItems((items) => items.filter((item) => item.id !== id))
     console.log(id);
-
   }
+
+  //toggle avec l'option checked 
   function handleToogleItem(id) {
     setItems((items) =>
       items.map((item) => (
@@ -106,8 +109,8 @@ function Item({ item, onDeleteItem, onToogleItem }) {
   return (
     <li>
       <input type="checkbox" 
-      value={item.packed} 
-      onChange={()=> onToogleItem(item.id) } />
+          value={item.packed} 
+          onChange={()=> onToogleItem(item.id) } />
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
         {item.quantity} {item.description}
       </span>
