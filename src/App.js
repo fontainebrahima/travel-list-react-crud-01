@@ -124,7 +124,7 @@ function Stats({ items }) {
     return (
       <p className="stats">
         <em>
-          start adding some items to your packing list 🚀
+        start adding some items to your packing list 🚀
         </em>
       </p>
     );
