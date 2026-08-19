@@ -10,6 +10,7 @@ export default function App() {
 
   const [items, setItems] = useState([]);
 
+
   //ajout d'un item
   function handleAddItems(item) {
     setItems((items) => [...items, item])
@@ -35,7 +36,7 @@ export default function App() {
       <Logo />
       <Form onAddItems={handleAddItems} />
       <PackingList items={items} onDeleteItem={handleDeleteItem} onToogleItem={handleToogleItem} />
-      <Stats />
+      <Stats items={items} />
     </div>
   );
 }
@@ -58,9 +59,6 @@ function Form({ onAddItems }) {
     if (!description) return;
 
     const newItem = { description, quantity, packed: false, id: Date.now() };
-
-    console.log(newItem);
-
     onAddItems(newItem);
 
     setDescription('');
@@ -108,9 +106,9 @@ function PackingList({ items, onDeleteItem, onToogleItem }) {
 function Item({ item, onDeleteItem, onToogleItem }) {
   return (
     <li>
-      <input type="checkbox" 
-          value={item.packed} 
-          onChange={()=> onToogleItem(item.id) } />
+      <input type="checkbox"
+        value={item.packed}
+        onChange={() => onToogleItem(item.id)} />
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
         {item.quantity} {item.description}
       </span>
@@ -120,10 +118,28 @@ function Item({ item, onDeleteItem, onToogleItem }) {
 }
 
 //-------------------------------- un element des stats--------------------------
-function Stats() {
+function Stats({ items }) {
+
+  if (!items.length)
+    return (
+      <p className="stats">
+        <em>
+          start adding some items to your packing list 🚀
+        </em>
+      </p>
+    );
+
+  const numItems = items.length;
+  const numPacked = items.filter((item) => item.packed).length;
+  const percentage = Math.round((numPacked / numItems) * 100);
+
   return (
     <footer className="stats">
-      <em>you have x items on your list, and you already packed X (x%)</em>
+      <em>
+
+        {percentage === 100
+          ? "you got everyhing! ready to go✈️"
+          : `🍔you have ${numItems} items on your list, and you already packed ${numPacked} (${percentage}%)`}</em>
     </footer>
   )
 }
