@@ -90,6 +90,7 @@ function Form({ onAddItems }) {
 //--------------------------------- ensemble de List---------------------------
 function PackingList({ items, onDeleteItem, onToogleItem }) {
 
+//fonction pour trier les items selon l'option choisie
   const [sortBy, setSortBy] = useState("input");
 
   let sortedItems;
@@ -105,6 +106,8 @@ function PackingList({ items, onDeleteItem, onToogleItem }) {
       .slice()
       .sort((a, b) => Number(a.packed) - Number(b.packed));
 
+  //---------------------------------affichage de la liste---------------------------
+
   return (
     <div className="list">
       <ul>
@@ -117,7 +120,7 @@ function PackingList({ items, onDeleteItem, onToogleItem }) {
           />
         ))}
       </ul>
-
+{/* ---------------------------------affichage du select pour trier--------------------------- */}
       <div className="actions">
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
           <option value="input">sort by input</option>
@@ -125,6 +128,7 @@ function PackingList({ items, onDeleteItem, onToogleItem }) {
           <option value="packed">sort by packed status</option>
         </select>
       </div>
+
     </div>
   );
 }
@@ -148,6 +152,7 @@ function Item({ item, onDeleteItem, onToogleItem }) {
 
 //-------------------------------- un element des stats--------------------------
 function Stats({ items }) {
+  
   if (!items.length)
     return (
       <p className="stats">
