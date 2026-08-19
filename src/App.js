@@ -7,35 +7,37 @@ import { useState } from "react";
 // ];
 
 export default function App() {
-
   const [items, setItems] = useState([]);
-
 
   //ajout d'un item
   function handleAddItems(item) {
-    setItems((items) => [...items, item])
+    setItems((items) => [...items, item]);
   }
 
   //supprime un item
   function handleDeleteItem(id) {
-    setItems((items) => items.filter((item) => item.id !== id))
+    setItems((items) => items.filter((item) => item.id !== id));
     console.log(id);
   }
 
-  //toggle avec l'option checked 
+  //toggle avec l'option checked
   function handleToogleItem(id) {
     setItems((items) =>
-      items.map((item) => (
-        item.id === id ? { ...item, packed: !item.packed }
-          : item
-      )))
+      items.map((item) =>
+        item.id === id ? { ...item, packed: !item.packed } : item,
+      ),
+    );
   }
 
   return (
     <div className="app">
       <Logo />
       <Form onAddItems={handleAddItems} />
-      <PackingList items={items} onDeleteItem={handleDeleteItem} onToogleItem={handleToogleItem} />
+      <PackingList
+        items={items}
+        onDeleteItem={handleDeleteItem}
+        onToogleItem={handleToogleItem}
+      />
       <Stats items={items} />
     </div>
   );
@@ -47,13 +49,10 @@ function Logo() {
 
 //---------------------------------form---------------------------
 function Form({ onAddItems }) {
-
   const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState(1)
-
+  const [quantity, setQuantity] = useState(1);
 
   function handleSubmit(e) {
-
     e.preventDefault();
 
     if (!description) return;
@@ -61,9 +60,8 @@ function Form({ onAddItems }) {
     const newItem = { description, quantity, packed: false, id: Date.now() };
     onAddItems(newItem);
 
-    setDescription('');
+    setDescription("");
     setQuantity(1);
-
   }
 
   return (
@@ -74,7 +72,9 @@ function Form({ onAddItems }) {
         onChange={(e) => setQuantity(Number(e.target.value))}
       >
         {Array.from({ length: 20 }, (acc, i) => i + 1).map((num) => (
-          <option value={num} key={num}>{num}</option>
+          <option value={num} key={num}>
+            {num}
+          </option>
         ))}
       </select>
       <input
@@ -85,47 +85,73 @@ function Form({ onAddItems }) {
       />
       <button>Ajouter</button>
     </form>
-
   );
 }
 //--------------------------------- ensemble de List---------------------------
 function PackingList({ items, onDeleteItem, onToogleItem }) {
-  return <div className="list">
-    <ul>
-      {items.map((item) => (
-        <Item item={item}
-          onDeleteItem={onDeleteItem}
-          onToogleItem={onToogleItem}
-          key={item.id} />
-      ))}
-    </ul>
-  </div>;
+
+  const [sortBy, setSortBy] = useState("input");
+
+  let sortedItems;
+  if (sortBy === "input") sortedItems = items;
+
+  if (sortBy === "description")
+    sortedItems = items
+      .slice()
+      .sort((a, b) => a.description.localeCompare(b.description));
+
+  if (sortBy === "packed")
+    sortedItems = items
+      .slice()
+      .sort((a, b) => Number(a.packed) - Number(b.packed));
+
+  return (
+    <div className="list">
+      <ul>
+        {sortedItems.map((item) => (
+          <Item
+            item={item}
+            onDeleteItem={onDeleteItem}
+            onToogleItem={onToogleItem}
+            key={item.id}
+          />
+        ))}
+      </ul>
+
+      <div className="actions">
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="input">sort by input</option>
+          <option value="description">sort by description</option>
+          <option value="packed">sort by packed status</option>
+        </select>
+      </div>
+    </div>
+  );
 }
 
 //-------------------------------- un element de List--------------------------
 function Item({ item, onDeleteItem, onToogleItem }) {
   return (
     <li>
-      <input type="checkbox"
+      <input
+        type="checkbox"
         value={item.packed}
-        onChange={() => onToogleItem(item.id)} />
+        onChange={() => onToogleItem(item.id)}
+      />
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
         {item.quantity} {item.description}
       </span>
       <button onClick={() => onDeleteItem(item.id)}>❌</button>
     </li>
-  )
+  );
 }
 
 //-------------------------------- un element des stats--------------------------
 function Stats({ items }) {
-
   if (!items.length)
     return (
       <p className="stats">
-        <em>
-        start adding some items to your packing list 🚀
-        </em>
+        <em>start adding some items to your packing list 🚀</em>
       </p>
     );
 
@@ -136,10 +162,10 @@ function Stats({ items }) {
   return (
     <footer className="stats">
       <em>
-
         {percentage === 100
           ? "you got everyhing! ready to go✈️"
-          : `🍔you have ${numItems} items on your list, and you already packed ${numPacked} (${percentage}%)`}</em>
+          : `🍔you have ${numItems} items on your list, and you already packed ${numPacked} (${percentage}%)`}
+      </em>
     </footer>
-  )
+  );
 }
