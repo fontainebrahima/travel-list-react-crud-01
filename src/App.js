@@ -29,6 +29,13 @@ export default function App() {
     );
   }
 
+  //effacer le tableau
+
+  function handleClearList() {
+    const confirmed = window.confirm("est vous sures de supprimer ?")
+    if (confirmed) setItems([])
+  }
+
   return (
     <div className="app">
       <Logo />
@@ -37,6 +44,7 @@ export default function App() {
         items={items}
         onDeleteItem={handleDeleteItem}
         onToogleItem={handleToogleItem}
+        onClearList={handleClearList}
       />
       <Stats items={items} />
     </div>
@@ -88,7 +96,7 @@ function Form({ onAddItems }) {
   );
 }
 //--------------------------------- ensemble de List---------------------------
-function PackingList({ items, onDeleteItem, onToogleItem }) {
+function PackingList({ items, onDeleteItem, onToogleItem, onClearList }) {
 
   //fonction pour trier les items selon l'option choisie
   const [sortBy, setSortBy] = useState("input");
@@ -116,6 +124,7 @@ function PackingList({ items, onDeleteItem, onToogleItem }) {
             item={item}
             onDeleteItem={onDeleteItem}
             onToogleItem={onToogleItem}
+            onClearList={onClearList}
             key={item.id}
           />
         ))}
@@ -127,6 +136,7 @@ function PackingList({ items, onDeleteItem, onToogleItem }) {
           <option value="description">sort by description</option>
           <option value="packed">sort by packed status</option>
         </select>
+        <button onClick={onClearList}>Clear List</button>
       </div>
 
     </div>
