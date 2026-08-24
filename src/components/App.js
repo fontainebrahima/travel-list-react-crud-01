@@ -6,6 +6,7 @@ import Stats from "./Stats";
 
 
 export default function App() {
+
   const [items, setItems] = useState([]);
 
   //ajout d'un item
@@ -16,11 +17,10 @@ export default function App() {
   //supprime un item
   function handleDeleteItem(id) {
     setItems((items) => items.filter((item) => item.id !== id));
-    console.log(id);
   }
 
   //toggle avec l'option checked
-  function handleToogleItem(id) {
+  function handleToggleItem(id) {
     setItems((items) =>
       items.map((item) =>
         item.id === id ? { ...item, packed: !item.packed } : item,
@@ -42,7 +42,7 @@ export default function App() {
       <PackingList
         items={items}
         onDeleteItem={handleDeleteItem}
-        onToogleItem={handleToogleItem}
+        onToggleItem={handleToggleItem}
         onClearList={handleClearList}
       />
       <Stats items={items} />

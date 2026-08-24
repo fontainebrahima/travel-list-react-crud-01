@@ -2,7 +2,7 @@ import { useState } from "react";
 import  Item  from "./Item";
 
 //-------ensemble de List---------------------------
-export default function PackingList({ items, onDeleteItem, onToogleItem, onClearList }) {
+export default function PackingList({ items, onDeleteItem, onToggleItem, onClearList }) {
 
     //fonction pour trier les items selon l'option choisie
     const [sortBy, setSortBy] = useState("input");
@@ -28,7 +28,7 @@ export default function PackingList({ items, onDeleteItem, onToogleItem, onClear
                     <Item
                         item={item}
                         onDeleteItem={onDeleteItem}
-                        onToogleItem={onToogleItem}
+                        onToggleItem={onToggleItem}
                         onClearList={onClearList}
                         key={item.id} 
                     />
