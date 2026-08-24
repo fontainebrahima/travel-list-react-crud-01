@@ -104,7 +104,7 @@ function PackingList({ items, onDeleteItem, onToogleItem }) {
   if (sortBy === "packed")
     sortedItems = items
       .slice()
-      .sort((a, b) => Number(a.packed) - Number(b.packed));
+      .sort((a, b) => Number(a.packed - b.packed));
 
   //---------------------------------affichage de la liste---------------------------
 
@@ -120,7 +120,7 @@ function PackingList({ items, onDeleteItem, onToogleItem }) {
           />
         ))}
       </ul>
-{/* ---------------------------------affichage du select pour trier--------------------------- */}
+      {/* ---------------------------------affichage du select pour trier--------------------------- */}
       <div className="actions">
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
           <option value="input">sort by input</option>
@@ -142,7 +142,7 @@ function Item({ item, onDeleteItem, onToogleItem }) {
         value={item.packed}
         onChange={() => onToogleItem(item.id)}
       />
-      <span style={item.packed ? { textDecoration: "line-through" } : {}}>
+      <span style={item.packed ? { textDecoration: "line-through" } : {} }>
         {item.quantity} {item.description}
       </span>
       <button onClick={() => onDeleteItem(item.id)}>❌</button>
