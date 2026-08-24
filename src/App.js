@@ -90,7 +90,7 @@ function Form({ onAddItems }) {
 //--------------------------------- ensemble de List---------------------------
 function PackingList({ items, onDeleteItem, onToogleItem }) {
 
-//fonction pour trier les items selon l'option choisie
+  //fonction pour trier les items selon l'option choisie
   const [sortBy, setSortBy] = useState("input");
 
   let sortedItems;
@@ -104,7 +104,7 @@ function PackingList({ items, onDeleteItem, onToogleItem }) {
   if (sortBy === "packed")
     sortedItems = items
       .slice()
-      .sort((a, b) => Number(a.packed - b.packed));
+      .sort((a, b) => Number(a.packed) - Number(b.packed));
 
   //---------------------------------affichage de la liste---------------------------
 
@@ -142,7 +142,7 @@ function Item({ item, onDeleteItem, onToogleItem }) {
         value={item.packed}
         onChange={() => onToogleItem(item.id)}
       />
-      <span style={item.packed ? { textDecoration: "line-through" } : {} }>
+      <span style={item.packed ? { textDecoration: "line-through" } : {}}>
         {item.quantity} {item.description}
       </span>
       <button onClick={() => onDeleteItem(item.id)}>❌</button>
@@ -152,7 +152,7 @@ function Item({ item, onDeleteItem, onToogleItem }) {
 
 //-------------------------------- un element des stats--------------------------
 function Stats({ items }) {
-  
+
   if (!items.length)
     return (
       <p className="stats">
